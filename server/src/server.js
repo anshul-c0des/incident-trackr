@@ -1,7 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import incidentRoutes from "./routes/incidentRoutes.js"
 
 dotenv.config();
 
@@ -17,6 +21,10 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.get("/", (req, res) => {
   res.send("Incident Tracker Backend Running");
 });
+
+app.use("/api/users", userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/incidents', incidentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
