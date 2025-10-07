@@ -1,22 +1,33 @@
-import { Resend } from 'resend';
-import dotenv from 'dotenv'
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,         
+    pass: process.env.GMAIL_APP_PASSWORD, 
+  },
+});
 
 export const sendOTPEmail = async (email, otp) => {
   try {
-    const response = await resend.emails.send({
-      from: 'no-reply@incident-trackr.com',
+    const mailOptions = {
+      from: `"Incident Trackr" <${process.env.GMAIL_USER}>`,
       to: email,
       subject: 'Your OTP for Password Reset',
-      html: `<p>Your OTP is: <strong>${otp}</strong></p><p>It is valid for 5 minutes.</p>`,
-    });
+      html: `
+        <p>Hello,</p>
+        <p>Your OTP for resetting your password is: <strong>${otp}</strong></p>
+        <p>This OTP is valid for 5 minutes.</p>
+      `,
+    };
 
-    return response;
+    const result = await transporter.sendMail(mailOptions);
+    return result;
   } catch (err) {
-    console.error('Resend email error:', err);
-    throw new Error('Failed to send email');
+    console.error('Failed to send OTP email:', err);
+    throw new Error('Could not send OTP email');
   }
 };
