@@ -34,7 +34,7 @@ export default function Incidents() {
   const handleLogout = () => {   // handles logout - clear saved token
     localStorage.removeItem("token");
     toast.success("Logout successful");
-    navigate("/login");
+    navigate("/");
   };
 
   const handleFilterChange = (e) => {   // updates filters on dropdown changes
