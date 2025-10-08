@@ -4,11 +4,14 @@ import axios from "axios";
 const router = express.Router();
 
 router.get("/location-from-pincode/:pincode", async (req, res) => {
+  // fetches city and country from pincode
   const { pincode } = req.params;
 
   try {
     const countryCode = "in";
-    const response = await axios.get(`http://api.zippopotam.us/${countryCode}/${pincode}`);
+    const response = await axios.get(
+      `http://api.zippopotam.us/${countryCode}/${pincode}`
+    );
 
     if (
       response.data &&

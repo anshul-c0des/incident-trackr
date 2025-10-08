@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 
 const incidentSchema = new mongoose.Schema(
   {
-    incidentId: { 
+    incidentId: {   // unique incident Id
       type: String,
       required: true,
       unique: true,
     },
-    reporter: {
+    reporter: {   // logged in user
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -31,7 +31,7 @@ const incidentSchema = new mongoose.Schema(
       default: "Open",
     },
   },
-  { timestamps: true }
+  { timestamps: true }   // for updated at
 );
 
 const Incident = mongoose.model("Incident", incidentSchema);

@@ -1,39 +1,42 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { Loader2 } from 'lucide-react';
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 
 export default function ResetPassword() {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [password, setPassword] = useState("");   // stores new pass input
+  const [confirmPassword, setConfirmPassword] = useState("");   // confirm new pass input
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const API = import.meta.env.VITE_API_BASE_URL;
-  const email = localStorage.getItem('resetEmail');
- 
+  const email = localStorage.getItem("resetEmail");   // retreives the user email from local storage
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setMessage('');
+    setError("");
+    setMessage("");
 
-    if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+    if (password !== confirmPassword) {   // confirm pass check
+      return setError("Passwords do not match");
     }
 
     setLoading(true);
 
     try {
-      await axios.post(`${API}/auth/reset-password`, { email, newPassword: password });
-      setMessage('Password reset successful');
-      toast.success('Password reset successful');
-      localStorage.removeItem('resetEmail');
-      setTimeout(() => navigate('/login'), 2000);
+      await axios.post(`${API}/auth/reset-password`, {
+        email,
+        newPassword: password,
+      });
+      setMessage("Password reset successful");
+      toast.success("Password reset successful");
+      localStorage.removeItem("resetEmail");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      toast.error('Failed to reset password');
-      setError(err.response?.data?.message || 'Failed to reset password');
+      toast.error("Failed to reset password");
+      setError(err.response?.data?.message || "Failed to reset password");
     } finally {
       setLoading(false);
     }
@@ -42,7 +45,9 @@ export default function ResetPassword() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-md mx-auto mt-10 p-6 border rounded-md shadow bg-white">
-        <h1 className="text-3xl font-bold mb-6 text-blue-400 text-center">Reset Password</h1>
+        <h1 className="text-3xl font-bold mb-6 text-blue-400 text-center">
+          Reset Password
+        </h1>
         {error && <p className="text-red-600 mb-4">{error}</p>}
         {message && <p className="text-green-600 mb-4">{message}</p>}
 
@@ -69,10 +74,8 @@ export default function ResetPassword() {
             disabled={loading}
           >
             <div className="flex justify-center items-center gap-2 font-semibold">
-              {loading ? (
-                <Loader2 className="animate-spin w-5 h-5" />
-              ) : null}
-              {loading ? 'Resetting Password...' : 'Reset Password'}
+              {loading ? <Loader2 className="animate-spin w-5 h-5" /> : null}
+              {loading ? "Resetting Password..." : "Reset Password"}
             </div>
           </button>
         </form>

@@ -6,9 +6,10 @@ const router = express.Router();
 
 router.use(authenticateToken);
 
-router.post('/', createIncident);
-router.get('/', getUserIncidents);
-router.get('/:id', getIncidentById);
-router.put('/:id', updateIncident);
+// incident routes
+router.post('/', authenticateToken, createIncident);
+router.get('/', authenticateToken, getUserIncidents);
+router.get('/:id', authenticateToken, getIncidentById);
+router.put('/:id', authenticateToken, updateIncident);
 
 export default router;

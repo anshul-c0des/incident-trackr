@@ -1,25 +1,24 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axiosInstance from '../api/axiosInstance';
-import toast from 'react-hot-toast';
-import { Loader2, Pencil } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
+import toast from "react-hot-toast";
+import { Loader2, Pencil } from "lucide-react";
 
 export default function EditIncident() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [incident, setIncident] = useState(null);
-  const [formData, setFormData] = useState({
-    incidentDetails: '',
-    priority: 'Low',
-    status: 'Open',
+  const [incident, setIncident] = useState(null);   // stores fetched incident
+  const [formData, setFormData] = useState({   // stores from data from user
+    incidentDetails: "",
+    priority: "Low",
+    status: "Open",
   });
+  const [loading, setLoading] = useState(true);   // loading state
+  const [updating, setUpdating] = useState(false);   // updating state
+  const [error, setError] = useState("");
 
-  const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false); 
-  const [error, setError] = useState('');
-
-  useEffect(() => {
+  useEffect(() => {   // start fetching when component mounts
     const fetchIncident = async () => {
       try {
         const res = await axiosInstance.get(`/incidents/${id}`);
@@ -31,7 +30,7 @@ export default function EditIncident() {
         });
       } catch (err) {
         toast.error("Failed to fetch incident");
-        setError(err.response?.data?.message || 'Failed to fetch incident');
+        setError(err.response?.data?.message || "Failed to fetch incident");
       } finally {
         setLoading(false);
       }
@@ -41,7 +40,7 @@ export default function EditIncident() {
   }, [id]);
 
   const handleChange = (e) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -49,16 +48,16 @@ export default function EditIncident() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setUpdating(true);
 
     try {
       await axiosInstance.put(`/incidents/${id}`, formData);
       toast.success("Incident Updated Successfully");
-      navigate('/incidents');
+      navigate("/incidents");
     } catch (err) {
-      toast.error('Failed to update incident');
-      setError(err.response?.data?.message || 'Failed to update incident');
+      toast.error("Failed to update incident");
+      setError(err.response?.data?.message || "Failed to update incident");
     } finally {
       setUpdating(false);
     }
@@ -67,12 +66,14 @@ export default function EditIncident() {
   if (loading) return <p className="p-4">Loading...</p>;
   if (error) return <p className="p-4 text-red-600">{error}</p>;
 
-  const isClosed = incident.status === 'Closed';
+  const isClosed = incident.status === "Closed";   // used to prevent editing of closed incidents
 
   return (
     <div className="bg-gray-50 h-100vh">
       <div className="max-w-xl mx-auto mt-10 p-6 border rounded-md shadow bg-white">
-        <h1 className="text-3xl font-bold mb-4 text-blue-400 text-center">Edit Incident: {incident.incidentId}</h1>
+        <h1 className="text-3xl font-bold mb-4 text-blue-400 text-center">
+          Edit Incident: {incident.incidentId}
+        </h1>
 
         {isClosed && (
           <p className="mb-4 text-red-500 font-semibold">
@@ -123,24 +124,24 @@ export default function EditIncident() {
             </select>
           </div>
 
-          {!isClosed && (
+          {!isClosed && (   // renders if the incident is not closed
             <button
-            type="submit"
-            disabled={updating}
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition disabled:opacity-70 disabled:cursor-not-allowed"
-          >
-            {updating ? (
-              <>
-                <Loader2 className="animate-spin w-5 h-5" />
-                Updating...
-              </>
-            ) : (
-              <div className='flex items-center justify-center gap-2 font-semibold' >
-                Update Incident
-                <Pencil className="w-5 h-5" />
-              </div>
-            )}
-          </button>
+              type="submit"
+              disabled={updating}
+              className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {updating ? (
+                <>
+                  <Loader2 className="animate-spin w-5 h-5" />
+                  Updating...
+                </>
+              ) : (
+                <div className="flex items-center justify-center gap-2 font-semibold">
+                  Update Incident
+                  <Pencil className="w-5 h-5" />
+                </div>
+              )}
+            </button>
           )}
         </form>
       </div>

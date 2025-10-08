@@ -2,12 +2,18 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import axios from "axios";
 
-async function getCityCountryFromPincode(pincode) {
+async function getCityCountryFromPincode(pincode) {   // fetch pincode
   try {
     const countryCode = "in";
-    const response = await axios.get(`http://api.zippopotam.us/${countryCode}/${pincode}`);
-    
-    if (response.data && response.data.places && response.data.places.length > 0) {
+    const response = await axios.get(
+      `http://api.zippopotam.us/${countryCode}/${pincode}`
+    );
+
+    if (
+      response.data &&
+      response.data.places &&
+      response.data.places.length > 0
+    ) {
       const place = response.data.places[0];
       return {
         city: place["place name"],
@@ -22,7 +28,7 @@ async function getCityCountryFromPincode(pincode) {
   }
 }
 
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {   // creates a new user (register)
   try {
     const { name, email, phone, address, pincode, password } = req.body;
 
