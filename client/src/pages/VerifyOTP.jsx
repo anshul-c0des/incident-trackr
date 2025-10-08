@@ -31,7 +31,7 @@ export default function VerifyOtp() {
     }
 
     return () => clearInterval(interval);
-  }, [timer, email]);
+  }, [timer, email]); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();

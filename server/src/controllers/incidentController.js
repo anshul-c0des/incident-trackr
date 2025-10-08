@@ -35,7 +35,7 @@ export const createIncident = async (req, res) => {
 
 export const getUserIncidents = async (req, res) => {
   try {
-    const incidents = await Incident.find({ reporter: req.user.userId }).sort({ reportedAt: -1 });
+    const incidents = await Incident.find({ reporter: req.user.userId }).sort({ reportedAt: -1 }).populate('reporter', 'name');
     res.json(incidents);
   } catch (error) {
     console.error('Get incidents error:', error);

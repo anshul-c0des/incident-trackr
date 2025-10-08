@@ -52,12 +52,12 @@ export default function ForgotPassword() {
           className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
         >
           <div className="flex justify-center items-center gap-2 font-semibold">
+            {sending ? 'Sending OTP...' : 'Send OTP'}
               {sending ? (
                 <Loader2 className="animate-spin w-5 h-5" />
               ) : (
                 <Send />
               )}
-              {sending ? 'Sending OTP...' : 'Send OTP'}
             </div>
         </button>
       </form>

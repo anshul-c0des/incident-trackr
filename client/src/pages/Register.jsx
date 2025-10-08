@@ -164,7 +164,7 @@ export default function Register() {
               <Loader2 className="animate-spin w-5 h-5" />
               Registering...
             </>
-          ) : (
+          ) : ( 
             <div className='flex items-center justify-center gap-2 font-semibold' >
               Register
               <LogIn className="w-5 h-5" />

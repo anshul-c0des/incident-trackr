@@ -72,7 +72,7 @@ export default function Login() {
               <Loader2 className="animate-spin w-5 h-5" />
               Logging in...
             </>
-          ) : (
+          ) : (  
             <div className='flex items-center justify-center gap-2 font-semibold' >
               Login
               <LogIn className="w-5 h-5" />
