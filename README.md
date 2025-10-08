@@ -1,6 +1,6 @@
 # 🚨 Incident Trackr
 
-A full-stack web application to manage and track incidents. The app features secure authentication, user-specific incident management, status filtering, and auto-location detection via pincode. Responsive, fast, and feature-complete.
+A full-stack web application to manage and track incidents. The app features secure authentication, user-specific incident management, status filtering, and auto-location detection via pincode.
 
 ---
 
@@ -31,6 +31,7 @@ A full-stack web application to manage and track incidents. The app features sec
 - Stores token securely in localStorage
 
 ### 3. `/forgot-password` – OTP-Based Reset
+- 🔐 Public Page
 - Sends a one-time 6-digit OTP to user's registered email
 - User gets redirected to set password if OTP is verified
 
@@ -48,7 +49,7 @@ A full-stack web application to manage and track incidents. The app features sec
 
 ### 6. `/incidents/:id/edit` – Edit Incident
 - 🛡️ Protected Route – Login Required
-- Only allows editing if status ≠ Closed
+- Only allows editing if status !== Closed
 - User can only edit their own incidents
 
 ---
